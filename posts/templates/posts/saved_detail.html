@@ -1,0 +1,25 @@
+{% extends 'base_layout.html' %}
+{% block contents %}
+<br><br>
+<div class="post-detail">
+    <div class="post">
+        <img src="{{post.thumb.url}}"/>
+        <h2>{{post.title}}</h2><br>
+        <p>{{post.body}}</p><br>
+        <p>{{post.date}}</p>
+    </div>
+</div>
+<br>
+<div class="comment-block">
+    {% with comments.count as total_comments %}
+        <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+    {% endwith %}
+    {% for comment in comments %}
+        <p>comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</p>
+        <p>{{ comment.body|linebreaks }}</p>
+    {% empty %}
+        <p>There are no comments yet.</p>
+    {% endfor %}
+</div>
+<br><br>
+{% endblock %}

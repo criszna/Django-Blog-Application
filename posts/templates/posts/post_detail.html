@@ -1,0 +1,55 @@
+{% extends 'base_layout.html' %}
+{% block contents %}
+<br><br>
+<div class="post-detail">
+    <div class="post">
+        <img src="{{post.thumb.url}}"/>
+        <h2>{{post.title}}</h2>
+        <p>{{post.body}}</p>
+        <p>{{post.date}}</p>
+    </div>
+    <br>
+    <div class="comment-block">
+    {% with comments.count as total_comments %}
+        <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+    {% endwith %}
+    {% for comment in comments %}
+        <p>comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</p>
+        <p>{{ comment.body|linebreaks }}</p>
+    {% empty %}
+        <p>There are no comments yet.</p>
+    {% endfor %}
+    </div>
+</div>
+<br><br>
+<div class="add-comment">
+{% if new_comment %}
+    <h2>Your comment has been added</h2>
+{% else %}
+    {% if form != None %}
+        <h2>Add a new comment</h2>
+        <form class="site-form" method="post">
+            {{ form }}
+            {% csrf_token %}
+            <p><input class="highlight" type="submit" value="Add Comment"></p>
+        </form>
+    {% elif not user_auth %}
+        <a href="{% url 'accounts:login' %}" class="highlight">Login to comment on posts</a>
+    {% elif user_auth %}
+        <h2>You have already commented</h2>
+    {% endif %}
+{% endif %}
+<br>
+{% if save_post %}
+<h2> Added to your saved posts</h2>
+{% elif user_auth and saved_post == 1 %}
+<h2> You have already saved this post</h2>
+{% elif user_auth %}
+<form method="post">
+    {% csrf_token %}
+    <p><input class="highlight" type="submit" value="Save Post" name="save"></p>
+</form>
+{% endif %}
+</div>
+<br><br>
+{% endblock %}

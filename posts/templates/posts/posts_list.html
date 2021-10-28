@@ -1,0 +1,39 @@
+{% extends 'base_layout.html' %}
+
+{% block contents %}
+    {% if user != None %}
+    <h2>Welcome {{user}}</h2>
+    {% else %}
+    <h2>Welcome</h2>
+    {% endif %}
+    <br>
+    <img src="/media/default.jpg" id="main_img">
+    <div class="all-posts">
+    <table>
+        <tr>
+            <td id="i1"><h1>Latest Blogs</h1></td>
+            <td id="i2"><h1>Recents</h1></td>
+        </tr>
+    </table>
+    <div class="posts">
+        {% for post in old_post %}
+        <div class="post">
+            <h3><a href="{% url 'posts:detail' name=post.title %}">{{post.title}}</a></h3>
+            <p>{{post.snippet}}</p>
+            <p>{{post.date}}</p>
+            <p class="author">- {{post.author}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="recent-posts">
+        {% for post in recent_post %}
+        <div class="recent-post">
+            <h3><a href="{% url 'posts:detail' name=post.title %}">{{post.title}}</a></h3>
+            <p>{{post.snippet}}</p>
+            <p>{{post.date}}</p>
+            <p class="author">- {{post.author}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

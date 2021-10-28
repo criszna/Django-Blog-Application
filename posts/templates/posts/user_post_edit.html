@@ -1,0 +1,12 @@
+{% extends 'base_layout.html' %}
+{% block contents %}
+<br><br>
+<div class="create-post">
+    <h1>Edit post</h1>
+    <form class="site-form" action="{% url 'posts:user_post_edit' name=name %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Save" name="save">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+    <link rel="stylesheet" href="{% static 'css.css'%}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="top">
+            <div class="topbar"><h2><a href="{% url 'index' %}">Blogs</a></h2></div>
+            <div class="topbar left"><h2><a href="{% url 'twitter' %}">Twitter</a></h2></div>
+            <div class="topbar left"><h2><a href="{% url 'about' %}">About</a></h2><br></div>
+        </div>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <input class="highlight" type="submit" value="Logout">
+                        </form>
+                    </li>
+                    <li><a href="{% url 'posts:create' %}" class="highlight">New Post</a></li>
+                    <li><a href="{% url 'posts:userpost' %}" class="highlight">User Posts</a></li>
+                    <li><a href="{% url 'posts:savedpost' %}" class="highlight">Saved Posts</a></li>
+
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}" class="highlight topbar">Login</a></li>
+                    <li><a href="{% url 'accounts:signup' %}" class="highlight topbar">Signup</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <br>
+        {% block contents %}
+        {% endblock %}
+        <div id="footer">
+            2020 - <strong>blog website</strong>
+        </div>
+    </div>
+</body>
+</html>
